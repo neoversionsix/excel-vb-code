@@ -54,5 +54,8 @@ Sub GenerateTextAndOutput()
     ' Note: This requires the vba for 'CopyTextboxToClipboard to be saved as another module
     Call CopyTextboxToClipboard
 
+    ' Display a pop-up message
+    MsgBox "DONE!", vbInformation, "Status"
+
 End Sub
 
