@@ -1,5 +1,5 @@
 'This copies the text stored in the TextBox called 'OUTPUT' into the Clipboard
-' DOES not require any reference libraries in excel
+' DOES not require any reference libraries in excel, does not require Microsoft Forms 2.0 Library
 Option Explicit
 
 Private Declare Function OpenClipboard Lib "user32" (ByVal hwnd As Long) As Long

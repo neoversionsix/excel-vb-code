@@ -30,6 +30,8 @@ Sub GenerateTextAndOutput()
         Dim tempText As String
         tempText = inputText
         For Each cell In row.Cells
+            Debug.Print "Header: " & tbl.HeaderRowRange.Cells(cell.Column - tbl.HeaderRowRange.Column + 1).Value
+            Debug.Print "Cell: " & cell.Value
             tempText = Replace(tempText, tbl.HeaderRowRange.Cells(cell.Column - tbl.HeaderRowRange.Column + 1).Value, cell.Value)
         Next cell
         
@@ -42,20 +44,16 @@ Sub GenerateTextAndOutput()
     
     ' Write output to temporary text file
     fileName = Environ$("TEMP") & "\clipboard.txt"
-    Open fileName For Output As #1
-    Print #1, outputText
-    Close #1
+    WriteTextFileUTF8 fileName, outputText
     
     ' Load text file contents into clipboard
     command = "cmd /c clip < """ & fileName & """"
     Call Shell(command, vbHide)
     
-    'Copy the text in 'OUTPUT' Textbox to the clipboard
-    ' Note: This requires the vba for 'CopyTextboxToClipboard to be saved as another module
     Call CopyTextboxToClipboard
-
+    
     ' Display a pop-up message
-    MsgBox "DONE!", vbInformation, "Status"
+    MsgBox "Code generated and copied to clipboardl. You can now paste it", vbInformation, "Status"
 
 End Sub
 
