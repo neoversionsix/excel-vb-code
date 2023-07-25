@@ -1,16 +1,26 @@
-'This copies the text stored in the TextBox called 'OUTPUT' into the Clipboard
-' DOES not require any reference libraries in excel, does not require Microsoft Forms 2.0 Library
 Option Explicit
 
-Private Declare Function OpenClipboard Lib "user32" (ByVal hwnd As Long) As Long
-Private Declare Function CloseClipboard Lib "user32" () As Long
-Private Declare Function EmptyClipboard Lib "user32" () As Long
-Private Declare Function lstrcpy Lib "Kernel32" (ByVal lpString1 As Any, ByVal lpString2 As Any) As Long
-Private Declare Function SetClipboardData Lib "user32" (ByVal wFormat As Long, ByVal hMem As Long) As Long
-Private Declare Function GlobalAlloc Lib "Kernel32" (ByVal wFlags As Long, ByVal dwBytes As Long) As Long
-Private Declare Function GlobalLock Lib "Kernel32" (ByVal hMem As Long) As Long
-Private Declare Function GlobalUnlock Lib "Kernel32" (ByVal hMem As Long) As Long
-Private Declare Function GlobalSize Lib "Kernel32" (ByVal hMem As Long) As Long
+#If VBA7 Then
+    Private Declare PtrSafe Function OpenClipboard Lib "user32" (ByVal hwnd As LongPtr) As LongPtr
+    Private Declare PtrSafe Function CloseClipboard Lib "user32" () As Long
+    Private Declare PtrSafe Function EmptyClipboard Lib "user32" () As Long
+    Private Declare PtrSafe Function lstrcpy Lib "Kernel32" (ByVal lpString1 As Any, ByVal lpString2 As Any) As LongPtr
+    Private Declare PtrSafe Function SetClipboardData Lib "user32" (ByVal wFormat As Long, ByVal hMem As LongPtr) As LongPtr
+    Private Declare PtrSafe Function GlobalAlloc Lib "Kernel32" (ByVal wFlags As Long, ByVal dwBytes As LongPtr) As LongPtr
+    Private Declare PtrSafe Function GlobalLock Lib "Kernel32" (ByVal hMem As LongPtr) As LongPtr
+    Private Declare PtrSafe Function GlobalUnlock Lib "Kernel32" (ByVal hMem As LongPtr) As Long
+    Private Declare PtrSafe Function GlobalSize Lib "Kernel32" (ByVal hMem As LongPtr) As LongPtr
+#Else
+    Private Declare Function OpenClipboard Lib "user32" (ByVal hwnd As Long) As Long
+    Private Declare Function CloseClipboard Lib "user32" () As Long
+    Private Declare Function EmptyClipboard Lib "user32" () As Long
+    Private Declare Function lstrcpy Lib "Kernel32" (ByVal lpString1 As Any, ByVal lpString2 As Any) As Long
+    Private Declare Function SetClipboardData Lib "user32" (ByVal wFormat As Long, ByVal hMem As Long) As Long
+    Private Declare Function GlobalAlloc Lib "Kernel32" (ByVal wFlags As Long, ByVal dwBytes As Long) As Long
+    Private Declare Function GlobalLock Lib "Kernel32" (ByVal hMem As Long) As Long
+    Private Declare Function GlobalUnlock Lib "Kernel32" (ByVal hMem As Long) As Long
+    Private Declare Function GlobalSize Lib "Kernel32" (ByVal hMem As Long) As Long
+#End If
 
 Private Const GHND = &H42
 Private Const CF_TEXT = 1
@@ -18,7 +28,7 @@ Private Const MAXSIZE = 4096
 
 Sub CopyTextboxToClipboard()
     Dim text As String
-    text = ActiveSheet.Shapes("OUTPUT").TextFrame.Characters.text
+    text = ActiveSheet.Shapes("OUTPUT").TextFrame2.TextRange.text
     ClipBoard_SetData text
 End Sub
 
